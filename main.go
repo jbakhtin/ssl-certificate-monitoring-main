@@ -3,17 +3,18 @@ package main
 import (
 	"database/sql"
 	"fmt"
+	"github.com/aws/aws-lambda-go/lambda"
 	_ "github.com/go-sql-driver/mysql"
 	"log"
 	"net/http"
-	"github.com/aws/aws-lambda-go/lambda"
+	"os"
 )
 
-const DB_HOST = "cid-rep-dev-v2.cluster-cxkxcvxokdny.us-east-2.rds.amazonaws.com"
-const DB_PORT = "3306"
-const DB_USER = "calleridrepdev"
-const DB_NAME = "calleridrep_db"
-const DB_PASSWORD = "STAZP!^KUEx4jE4jpmUC2Exbp6"
+var db_host = os.Getenv("DB_HOST")
+var db_port = os.Getenv("DB_PORT")
+var db_user = os.Getenv("DB_USER")
+var db_name = os.Getenv("DB_NAME")
+var db_password = os.Getenv("DB_PASSWORD")
 
 var database *sql.DB
 
@@ -61,10 +62,12 @@ func HandleLambdaEvent(event MyEvent) (MyResponse, error) {
 }
 
 func main() {
-	db, err := sql.Open("mysql", DB_USER + ":" + DB_PASSWORD + "@tcp(" + DB_HOST + ":" + DB_PORT + ")/" + DB_NAME )
+	db, err := sql.Open("mysql", db_user + ":" + db_password + "@tcp(" + db_host + ":" + db_port + ")/" + db_name )
 
 	if err != nil {
 		log.Println(err)
+	} else {
+		log.Println("DB connection successful")
 	}
 
 	database = db
