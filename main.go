@@ -8,6 +8,7 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"sync"
 )
 
 var db_host = os.Getenv("DB_HOST")
@@ -17,6 +18,7 @@ var db_name = os.Getenv("DB_NAME")
 var db_password = os.Getenv("DB_PASSWORD")
 
 var database *sql.DB
+var wait_rutine sync.WaitGroup
 
 type MyEvent struct {
 	Name string `json:"What is your name?"`
@@ -33,30 +35,43 @@ type ServerRegion struct{
 }
 
 func request(url string) {
-	_, err := http.Get(url)
+	response, err := http.Get(url)
 
 	if err == nil {
 		log.Println(err)
+	} else {
+		log.Println(response)
 	}
+
+	wait_rutine.Done()
 }
 
 func HandleLambdaEvent(event MyEvent) (MyResponse, error) {
 	rows, err := database.Query("select id, host from stir_shaken_region_servers where enabled = 1")
 	if err != nil {
 		log.Println(err)
+	} else {
+		log.Println("Found ")
 	}
-	defer rows.Close()
+
+	//defer rows.Close()
 
 	for rows.Next() {
 		p := ServerRegion{}
 		err := rows.Scan(&p.Id, &p.Host)
+
 		if err != nil {
 			fmt.Println(err)
 			continue
+		} else {
+			log.Println(p)
 		}
 
+		wait_rutine.Add(1)
 		go request(p.Host)
 	}
+
+	wait_rutine.Wait()
 
 	return MyResponse{Message: fmt.Sprintf("%s is %d years old!", event.Name, event.Age)}, nil
 }
