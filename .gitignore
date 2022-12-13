@@ -1,5 +1,9 @@
 .idea/*
+
+.env
+
 go.mod
 go.sum
+
 main
-.env
+main.zip
