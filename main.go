@@ -9,7 +9,7 @@ import (
 	"os"
 	"ssl-monitor-main/internal/configs"
 	"ssl-monitor-main/internal/database"
-	wakeUpRegionServers "ssl-monitor-main/internal/servises"
+	wakeUpRegionServers "ssl-monitor-main/internal/services"
 )
 
 var db *gorm.DB

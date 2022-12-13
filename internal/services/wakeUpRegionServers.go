@@ -1,13 +1,13 @@
 package wakeUpRegionServers
 
 import (
+	"context"
 	"gorm.io/gorm"
 	"log"
 	"net/http"
 	"ssl-monitor-main/internal/database"
 	"ssl-monitor-main/internal/models"
 	"sync"
-	"context"
 )
 
 type Event struct {
