@@ -20,11 +20,11 @@ func main() {
 	}
 
 	err := database.InitDatabaseClient(&database.ConnectionInfo{
-		User:     os.Getenv("DB_USERNAME"),
+		Username:     os.Getenv("DB_USERNAME"),
 		Password: os.Getenv("DB_PASSWORD"),
 		Host:     os.Getenv("DB_HOST"),
 		Port:     os.Getenv("DB_PORT"),
-		Name:     os.Getenv("DB_DATABASE"),
+		Database:     os.Getenv("DB_DATABASE"),
 	})
 
 	if err != nil {

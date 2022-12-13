@@ -9,15 +9,15 @@ import (
 var DB *gorm.DB
 
 type ConnectionInfo struct {
-	User     string
+	Username string
 	Password string
 	Host     string
 	Port     string
-	Name     string
+	Database string
 }
 
 func InitDatabaseClient(c *ConnectionInfo) error {
-	dsn := c.User + ":" + c.Password + "@tcp(" + c.Host + ":" + c.Port + ")/" + c.Name
+	dsn := c.Username + ":" + c.Password + "@tcp(" + c.Host + ":" + c.Port + ")/" + c.Database
 
 	var err error
 	DB, err = gorm.Open(mysql.Open(dsn), &gorm.Config{})
