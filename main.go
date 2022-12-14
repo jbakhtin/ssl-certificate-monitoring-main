@@ -7,7 +7,6 @@ import (
 	"gorm.io/gorm"
 	"log"
 	"os"
-	"ssl-monitor-main/internal/configs"
 	"ssl-monitor-main/internal/database"
 	wakeUpRegionServers "ssl-monitor-main/internal/services"
 )
@@ -15,9 +14,9 @@ import (
 var db *gorm.DB
 
 func main() {
-	if err := configs.Init(); err != nil {
-		log.Panicln(err)
-	}
+	//if err := configs.Init(); err != nil {
+	//	log.Panicln(err)
+	//}
 
 	err := database.InitDatabaseClient(&database.ConnectionInfo{
 		Username:     os.Getenv("DB_USERNAME"),

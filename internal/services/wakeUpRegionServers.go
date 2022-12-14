@@ -33,7 +33,7 @@ func Run(c context.Context) (Response, error) {
 	defer rows.Close()
 
 	for rows.Next() {
-		err := database.DB.ScanRows(rows, regionServer)
+		err := database.DB.ScanRows(rows, &regionServer)
 
 		if err != nil {
 			log.Println(err)
