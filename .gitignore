@@ -2,8 +2,5 @@
 
 .env
 
-go.mod
-go.sum
-
 main
 main.zip
